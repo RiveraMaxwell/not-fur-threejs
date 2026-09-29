@@ -1,0 +1,13 @@
+{
+  "name": "not-fur-threejs",
+  "version": "0.1.0",
+  "description": "An independent shell-based fur reimplementation inspired by fur-threejs",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "start": "node serve.mjs"
+  },
+  "dependencies": {
+    "three": "^0.185.1"
+  }
+}

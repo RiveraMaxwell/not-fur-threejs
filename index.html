@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>not-fur-threejs (instanced shells + strand noise)</title>
+<meta name="description" content="A from-scratch three.js demo of shell-based fur with strand noise.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px; background: #14161a; color: #dfe3e8;
+         font: 13px/1.5 system-ui, "Segoe UI", sans-serif; }
+  h1 { font-size: 16px; margin: 0 0 4px; font-weight: 600; }
+  .wrap { display: flex; gap: 22px; flex-wrap: wrap; align-items: flex-start; }
+  #stage { width: 512px; height: 512px; max-width: 92vw; background: #23262c;
+           border: 1px solid #2e323a; border-radius: 6px; overflow: hidden; position: relative; }
+  canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
+  #stats { position: absolute; left: 8px; top: 8px; color: #9aa3b0; font-size: 11px;
+           background: rgba(0,0,0,.45); padding: 3px 7px; border-radius: 4px; }
+  .panel { width: 300px; }
+  section { margin-bottom: 16px; }
+  h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: #7f8896;
+       margin: 0 0 8px; font-weight: 600; }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 6px; align-items: center; margin-bottom: 7px; }
+  .row label { color: #b9c1cc; }
+  .row output { color: #6fb3ff; font-variant-numeric: tabular-nums; }
+  input[type=range] { grid-column: 1 / -1; width: 100%; accent-color: #4f8fd8; margin: 0; }
+  select { width: 100%; background: #1d2026; color: #dfe3e8; border: 1px solid #2e323a;
+           border-radius: 4px; padding: 4px 6px; margin-bottom: 8px; }
+  #err { color: #ff8080; white-space: pre-wrap; margin-top: 12px; }
+</style>
+</head>
+<body>
+<h1>not-fur-threejs &mdash; instanced shells + strand noise</h1>
+<div class="wrap">
+  <div id="stage">
+    <canvas id="canvas"></canvas>
+    <div id="stats">starting&hellip;</div>
+  </div>
+
+  <div class="panel">
+    <section>
+      <h2>Scene</h2>
+      <select id="scene">
+        <option value="sphere">Sphere</option>
+        <option value="torus">Torus</option>
+        <option value="box">Box (hard case: faceted normals)</option>
+      </select>
+      <select id="pattern">
+        <option value="0">Unicolor</option>
+        <option value="1" selected>Spots</option>
+        <option value="2">Stripes</option>
+      </select>
+      <select id="mode">
+        <option value="shells" selected>Full coat</option>
+        <option value="skin">Support mesh only</option>
+      </select>
+    </section>
+
+    <section>
+      <h2>Fur</h2>
+      <div class="row"><label for="length">Length</label><output id="length-out"></output>
+        <input type="range" id="length" min="0.05" max="6" step="0.05" value="2.75"></div>
+      <div class="row"><label for="density">Density (noise tiling)</label><output id="density-out"></output>
+        <input type="range" id="density" min="1" max="10" step="1" value="10"></div>
+      <div class="row"><label for="smooth">Smoothness</label><output id="smooth-out"></output>
+        <input type="range" id="smooth" min="0" max="1" step="0.01" value="0.5"></div>
+      <div class="row"><label for="comb">Comb</label><output id="comb-out"></output>
+        <input type="range" id="comb" min="0" max="1" step="0.01" value="0.5"></div>
+      <div class="row"><label for="quality">Quality (shell layers)</label><output id="quality-out"></output>
+        <input type="range" id="quality" min="2" max="180" step="1" value="60"></div>
+    </section>
+
+    <div id="err"></div>
+  </div>
+</div>
+
+<script type="importmap">
+  { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.185.1/build/three.module.js" } }
+</script>
+<script type="module" src="./fur.mjs"></script>
+</body>
+</html>
